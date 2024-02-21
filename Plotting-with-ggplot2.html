@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Data Visualisation</title>
+
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R Workshop Lausanne 2024</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="working_with_data.html">Loading data</a>
+</li>
+<li>
+  <a href="working_with_data_2.html">Working with the dataset</a>
+</li>
+<li>
+  <a href="Plotting-with-ggplot2.html">Data visualisation</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Data Visualisation</h1>
+
+</div>
+
+
+<div id="installing-ggplot" class="section level2">
+<h2>Installing ggplot</h2>
+<p>One package commonly used for data visualization in R is
+<code>ggplot2</code>. This package is often referred to as just
+“ggplot”.</p>
+<p>To install the <code>ggplot2</code> package, type the following:</p>
+<p><code>install.packages("ggplot2")</code></p>
+</div>
+<div id="loading-ggplot" class="section level2">
+<h2>Loading ggplot</h2>
+<p>To load <code>ggplot2</code>, type:</p>
+<pre class="r"><code>library(ggplot2)</code></pre>
+</div>
+<div id="creating-plots-using-ggplot" class="section level2">
+<h2>Creating plots using ggplot</h2>
+<pre class="r"><code>albanian_data &lt;- read.csv(&quot;Affricate_plosive_measures_for_workshop.csv&quot;, stringsAsFactors = T)</code></pre>
+<p>The code below requires that <code>dplyr</code> be installed. I use
+it here to rename some factors that are not intuitive and would require
+a lot of relabelling in plots otherwise.</p>
+<pre class="r"><code>library(dplyr)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<pre class="r"><code>albanian_data$Bi.mon &lt;- recode_factor(albanian_data$Bi.mon, `1` = &quot;Monolingual&quot;, `2` = &quot;Bilingual&quot;)
+albanian_data$Segment_label &lt;- recode_factor(albanian_data$Segment_label,  &quot;q&quot; = &quot;/c/&quot;, &quot;ç&quot; = &quot;/tʃ/&quot;)
+albanian_data$Position_label &lt;- recode_factor(albanian_data$Position_label, &quot;on&quot; = &quot;Onset&quot;, &quot;med&quot; = &quot;Medial&quot;)
+
+albanian_data &lt;- albanian_data %&gt;% filter(Participant != &quot;1&quot; &amp; Participant != &quot;7&quot;)</code></pre>
+<p>In order to create a plot, you first need to call the
+<code>ggplot</code> function. To do this type <code>ggplot()</code>. The
+first thing you need to consider is the <b>data</b> which you want to
+visualise. To do this, you need to include the name of your data as an
+argument, e.g. <code>ggplot(data = albanian_data)</code> or you can
+shorten this, by simply including the name of your data as the first
+thing within the parentheses, e.g. <code>ggplot(albanian_data)</code>.
+The second thing to think about is the inclusion of <b>mapping</b>.
+Mapping aesthetics link your data to the appearance of the graph. For
+instance, mapping is used to outline what is depicted on the X and Y
+axes, and determine attributes such as the size, shape and colour of
+different data points.</p>
+<p>To do this, you call the <b><code>aes</code></b> function,
+e.g. <code>ggplot(data = albanian_data, aes(x = Bi.mon, y = COG_MID))</code></p>
+<pre class="r"><code>ggplot(data = albanian_data, aes(x = Bi.mon, y = COG_MID)) # data and aesthetic mapping</code></pre>
+<p><img src="Plotting-with-ggplot2_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>We have data, and we have aesthetic mapping, but we haven’t yet
+specified what kind of plot we want to produce. The next thing we need
+to consider are <b>layers</b>. Layers determine the kind of plot that is
+shown, such as scatterplots, barplots, maps, etc. Layers are added using
+<b>geom</b> functions. For example, <code>geom_point()</code> would be
+used to create a scatterplot, <code>geom_boxplot()</code> would be used
+for boxplots, and <code>geom_bar()</code> for bar charts.</p>
+<p>For example, a boxplot could be created as follows:</p>
+<pre class="r"><code>ggplot(data = albanian_data, aes(x = Bi.mon, y = COG_MID)) + 
+  geom_boxplot() # We have now added a boxplot layer</code></pre>
+<p><img src="Plotting-with-ggplot2_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+<div id="geom_bar" class="section level2">
+<h2><code>geom_bar()</code></h2>
+<p>Barplots are used to display the relationship between a numerical
+variable and a categorical variable.</p>
+<p>The most basic kind of barplot in R, shows the count - or number of
+tokens - for each level of a categorical variable.</p>
+<p>For example, a bar plot could be used to show how many tokens
+occurred in initial versus medial position. To do this, we can use the
+<code>geom_bar()</code> function. In terms of mapping, only a value for
+the x-axis is needed. In this case, under <code>aes()</code>, we would
+just include <code>x = Position_label</code>.</p>
+<pre class="r"><code>ggplot(data = albanian_data, aes(x = Position_label)) + 
+  geom_bar()</code></pre>
+<p><img src="Plotting-with-ggplot2_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>You can see that ‘count’ is automatically displayed along the y-axis.
+If you wanted to change the colour of the bars, you could do this using
+<code>fill</code> within the aesthetic mapping function
+<code>aes()</code>:</p>
+<pre class="r"><code>ggplot(data = albanian_data, aes(x = Position_label, fill = Position_label)) + 
+  geom_bar()</code></pre>
+<p><img src="Plotting-with-ggplot2_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>By default, the bars will be in colour. You can change the colour
+scheme, so that your results are displayed in black and white, using
+<code>scale_fill_grey()</code>, as below:</p>
+<pre class="r"><code>ggplot(data = albanian_data, aes(x = Position_label, fill = Position_label)) + 
+  geom_bar() + 
+  scale_fill_grey()</code></pre>
+<p><img src="Plotting-with-ggplot2_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>Here the legend is a little redundant, so you can remove this by
+modifying the theme, changing the legend position to “none”, as you can
+see below:</p>
+<pre class="r"><code>ggplot(data = albanian_data, aes(x = Position_label, fill = Position_label)) + 
+  geom_bar() + 
+  scale_fill_grey() + 
+  theme(legend.position = &quot;none&quot;) </code></pre>
+<p><img src="Plotting-with-ggplot2_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>You can also play around with the theme. For example, adding
+<code>theme_bw()</code>:</p>
+<pre class="r"><code>ggplot(data = albanian_data, aes(x = Position_label, fill = Position_label)) + 
+  geom_bar() + 
+  scale_fill_grey() + 
+  theme_bw() + 
+  theme(legend.position = &quot;none&quot;) </code></pre>
+<p><img src="Plotting-with-ggplot2_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>Or <code>theme_classic()</code>:</p>
+<pre class="r"><code>ggplot(data = albanian_data, aes(x = Position_label, fill = Position_label)) + 
+  geom_bar() + 
+  scale_fill_grey() + 
+  theme_classic() + 
+  theme(legend.position = &quot;none&quot;) </code></pre>
+<p><img src="Plotting-with-ggplot2_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p>If you are unhappy with the x and y labels in your charts, you can
+modify these using <code>labs()</code>. Here the label ‘Position_label’
+is a little ugly, so we can change it to ‘Position’, by specifying
+<code>x = "Position"</code>. You can also add a title, using the
+<code>labs()</code> function, by specifying <code>title =</code></p>
+<pre class="r"><code>ggplot(data = albanian_data, aes(x = Position_label, fill = Position_label)) + 
+  geom_bar() + 
+  scale_fill_grey() + 
+  theme_classic() + 
+  theme(legend.position = &quot;none&quot;) + 
+  labs(x = &quot;Position&quot;, y = &quot;Count&quot;, title = &quot;Token count: onset versus medial position&quot;)</code></pre>
+<p><img src="Plotting-with-ggplot2_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p>You can also look at something other than count along the y-axis of a
+barplot.</p>
+<p>To do this, let’s work with some fabricated articulation rate data,
+with data points for two speakers:</p>
+<pre class="r"><code>library(readxl)
+articulation_rate &lt;- read_excel(&quot;Articulation Rate.xlsx&quot;)</code></pre>
+<p>Now we can plot the data. Note the addition of
+<code>stat = "identity"</code> within the <code>geom_bar()</code>
+function.</p>
+<pre class="r"><code>ggplot(data = articulation_rate, aes(x = `Intonational phrase`, y = `Articulation rate`, fill = Speaker)) + 
+  geom_bar(stat = &quot;identity&quot;) # stat = &quot;identity&quot; lets you include your own label for the y-axis. If you didn&#39;t have this, you would get an error message and nothing would happen.</code></pre>
+<p><img src="Plotting-with-ggplot2_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p>You might have notice that the labels for the x-axis and y-axis, are
+included within backticks ` - this is because the column names contain
+spaces. Without the backticks, you would receive error messages.</p>
+<p>However, there is a problem with the output we have above. The data
+for each of the two speakers are stacked on top of eachother. In this
+case, let’s assume that we don’t want to see a sum of the values for
+each speaker. We want to see their values side-by-side.</p>
+<p>To do this, we can add an additional argument to the geom_bar
+function: <code>position = position_dodge()</code>:</p>
+<pre class="r"><code>ggplot(data = articulation_rate, aes(x = `Intonational phrase`, y = `Articulation rate`, fill = Speaker)) + 
+  geom_bar(stat = &quot;identity&quot;, position = position_dodge())</code></pre>
+<p><img src="Plotting-with-ggplot2_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p>You can build on this further, by adding labels, e.g.:</p>
+<pre class="r"><code>ggplot(data = articulation_rate, aes(x = `Intonational phrase`, y = `Articulation rate`, fill = Speaker)) + 
+  geom_bar(stat = &quot;identity&quot;, position = position_dodge()) + 
+  geom_text(stat = &quot;identity&quot;, aes(label = round(`Articulation rate`, 3)), position = position_dodge(.9), vjust = 1.5)</code></pre>
+<p><img src="Plotting-with-ggplot2_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+</div>
+<div id="geom_boxplot" class="section level2">
+<h2><code>geom_boxplot()</code></h2>
+<p>Box plots (or box-and-whisker plots) are commonly used to visualise
+the relationship between a categorical variable and a numeric variable.
+Box plots display median values, the distribution of data, and can be
+used to identify outliers. We can make a basic boxplot using the
+<code>geom_boxplot()</code> function:</p>
+<pre class="r"><code>ggplot(data = albanian_data, aes(x = Segment_label, y = DUR*1000)) + 
+  geom_boxplot()</code></pre>
+<p><img src="Plotting-with-ggplot2_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p>You can also add notches. Notches offer a rough guide as to whether
+there is a significant difference between median values. We can do this
+by adding the argument <code>notch = TRUE</code>, within the
+<code>geom_boxplot()</code> function.</p>
+<pre class="r"><code>ggplot(data = albanian_data, aes(x = Segment_label, y = DUR*1000)) + 
+  geom_boxplot(notch = TRUE)</code></pre>
+<p><img src="Plotting-with-ggplot2_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p>We could also look at groups of speaker using
+<code>fill =</code>:</p>
+<pre class="r"><code>ggplot(data = albanian_data, aes(x = Segment_label, y = DUR*1000, fill = Dialect)) + 
+  geom_boxplot(notch = TRUE) + 
+  scale_fill_brewer() # This just shows you one way of changing the colour palette when you have used the fill argument above.</code></pre>
+<p><img src="Plotting-with-ggplot2_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p>Alternatively, you could use <code>facet_grid()</code> to separate
+out groups to plot them separately:</p>
+<pre class="r"><code>ggplot(data = albanian_data, aes(x = Segment_label, y = DUR*1000, fill = Dialect)) + 
+  geom_boxplot(notch = TRUE) + 
+  scale_fill_brewer() + 
+  facet_grid(~ Dialect)</code></pre>
+<p><img src="Plotting-with-ggplot2_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(data = albanian_data, aes(x= Segment_label, y = DUR*1000)) + 
+  geom_boxplot(notch = T)</code></pre>
+<p><img src="Plotting-with-ggplot2_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(data = albanian_data, aes(x= Dialect, y = Mean, fill = Dialect)) + 
+  geom_boxplot(notch = T) + 
+  scale_fill_brewer()</code></pre>
+<p><img src="Plotting-with-ggplot2_files/figure-html/unnamed-chunk-21-2.png" width="672" /></p>
+</div>
+<div id="geom_violin" class="section level2">
+<h2><code>geom_violin()</code></h2>
+<p>Violin plots are very similar to boxplots, but can help display the
+distribution of the data. Wider portions mean a greater number of data
+points in that region. To include a violin plot, add
+<code>geom_violin()</code>:</p>
+<pre class="r"><code>ggplot(data = albanian_data, aes(x = Segment_label, y = DUR*1000)) + 
+  geom_violin()</code></pre>
+<p><img src="Plotting-with-ggplot2_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<p>You can also overlay boxplots onto violin plots, like so:</p>
+<pre class="r"><code>ggplot(data = albanian_data, aes(x = Segment_label, y=COG_MID)) + 
+  geom_violin() + 
+  geom_boxplot(width=0.1)</code></pre>
+<p><img src="Plotting-with-ggplot2_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+</div>
+<div id="geom_point" class="section level2">
+<h2><code>geom_point()</code></h2>
+<p>A scatterplot is used to show the relationship between two numerical
+variables. You can produce a scatterplot by using
+<code>geom_point()</code>.</p>
+<p>For example, if you were interested in the relationship between
+centre of gravity (COG) and duration in ms, you could type the
+following, if looking at the Albanian data:</p>
+<pre class="r"><code>ggplot(data = albanian_data, aes(x = COG_MID, y = DUR*1000)) + 
+  geom_point()</code></pre>
+<p><img src="Plotting-with-ggplot2_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<p>Scatterplots are interesting in that they can be used to create vowel
+plots. We will work through an example here.</p>
+<p>First, let’s read in some data:</p>
+<pre class="r"><code>Vowel_data &lt;- read.csv(&quot;Vowels_to_plot.csv&quot;)</code></pre>
+<p>Next, we can focus in on one speaker to start with:</p>
+<pre class="r"><code>Vowel_data_A &lt;- subset(Vowel_data, Speaker == &quot;A&quot;)</code></pre>
+<p>Let’s plot them:</p>
+<pre class="r"><code>ggplot(data = Vowel_data_A, aes(x = F2, y = F1, colour = Vowel)) + 
+  geom_point()</code></pre>
+<p><img src="Plotting-with-ggplot2_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<p>This is a good start, but the chart would look even better if we
+flipped the x and y axes so that the plot more closely resembled a
+traditional vowel chart (F1 decreasing on the y-axis, reflecting vowel
+height; F2 decreasing along the x-axis reflecting vowel frontedness). We
+can do this by using <code>scale_x_reverse</code> and
+<code>scale_y_reverse</code> respectively:</p>
+<pre class="r"><code>ggplot(data = Vowel_data_A, aes(x = F2, y = F1, colour = Vowel)) + 
+  geom_point() +
+  scale_x_reverse() +
+  scale_y_reverse()</code></pre>
+<p><img src="Plotting-with-ggplot2_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<p>This is looking better, but the vowels could be clearer. Referring
+back and forth between the legend and the chart makes reading the plot
+more difficult than it needs to be:</p>
+<pre class="r"><code>ggplot(data = Vowel_data_A, aes(x = F2, y = F1, colour = Vowel)) + 
+  geom_point() +
+  scale_x_reverse() +
+  scale_y_reverse() +
+  geom_label(aes(label = Vowel), size = 8) + # Here we are adding the labels for each vowel directly into the graph
+  guides(label = &quot;none&quot;, colour = &quot;none&quot;) # This deletes the legend, which isn&#39;t needed anymore.</code></pre>
+<p><img src="Plotting-with-ggplot2_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+<p>If you want to look at more than one speaker simultaneously, you can.
+Adding <code>geom_polygon()</code> creates a line between each of the
+vowels for each speaker, which helps make the graph a little easier to
+read.</p>
+<pre class="r"><code>ggplot(Vowel_data, aes(x = F2, y = F1, colour = Speaker, label = Vowel, group = Speaker)) + # Colour and Group are separating out each Speaker here
+  geom_text(size = 6, show.legend = FALSE) + # We want a legend for speaker, but not for vowel, which is why show.legend = FALSE
+  geom_polygon(aes(fill = Speaker, linetype = NA), alpha = .1) + # Setting linetype to NA means you don&#39;t have a visible line joining up each vowel. Alpha changes how transparent the polygons are: a lower value means it is more transparent. If alpha was 1, you would see blocks of colour and it would be difficult to make out speaker A&#39;s vowel plot.
+  theme_bw() +
+  scale_x_reverse() + 
+  scale_y_reverse() + 
+  theme(legend.position = &quot;right&quot;)</code></pre>
+<p><img src="Plotting-with-ggplot2_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

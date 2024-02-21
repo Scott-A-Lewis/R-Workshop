@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Working with the dataset</title>
+
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R Workshop Lausanne 2024</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="working_with_data.html">Loading data</a>
+</li>
+<li>
+  <a href="working_with_data_2.html">Working with the dataset</a>
+</li>
+<li>
+  <a href="Plotting-with-ggplot2.html">Data visualisation</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Working with the dataset</h1>
+
+</div>
+
+
+<div id="exploring-data" class="section level2">
+<h2>Exploring data</h2>
+<p>Before we start, let’s load in some data:</p>
+<pre class="r"><code>Vowel_data &lt;- read.csv(&quot;Vowels_to_plot.csv&quot;)</code></pre>
+<p>Once you have loaded in data, you will want to explore it.</p>
+<p>To check the structure of your data, you can use the
+<code>str()</code> function. This will tell you how many rows of data
+you have, how many variables you have and what kind of data you have for
+each variable (e.g. characters (<code>chr</code>), numbers
+(e.g. <code>int</code> or <code>num</code>) or factors
+(<code>Factor</code>). For factors, you will be able to see how many
+levels (e.g. how many participants, how many vowels, etc.), which can be
+useful for detecting errors (if there are more or fewer levels than you
+were expecting).</p>
+<pre class="r"><code>str(Vowel_data)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    18 obs. of  4 variables:
+##  $ Speaker: chr  &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; ...
+##  $ Vowel  : chr  &quot;i&quot; &quot;e&quot; &quot;ɛ&quot; &quot;æ&quot; ...
+##  $ F1     : int  240 390 610 631 750 700 500 419 250 300 ...
+##  $ F2     : int  2400 2300 1900 1355 940 760 700 1063 595 2500 ...</code></pre>
+<p>Another thing you might want to do is establish the number of rows in
+the dataset. In order to to do this, you can use <code>nrow()</code>. If
+you are interested in the number of columns, you can use
+<code>ncol()</code>.</p>
+<pre class="r"><code>nrow(Vowel_data)</code></pre>
+<pre><code>## [1] 18</code></pre>
+<pre class="r"><code>ncol(Vowel_data)</code></pre>
+<pre><code>## [1] 4</code></pre>
+<p>In order to get a brief summary of all the columns in your dataset
+you can use <code>summary()</code>.</p>
+<pre class="r"><code>summary(Vowel_data)</code></pre>
+<pre><code>##    Speaker             Vowel                 F1              F2      
+##  Length:18          Length:18          Min.   :240.0   Min.   : 595  
+##  Class :character   Class :character   1st Qu.:397.2   1st Qu.: 813  
+##  Mode  :character   Mode  :character   Median :560.0   Median :1116  
+##                                        Mean   :544.8   Mean   :1384  
+##                                        3rd Qu.:707.5   3rd Qu.:1975  
+##                                        Max.   :850.0   Max.   :2500</code></pre>
+<p>You will notice, that for the columns containing numerical data, R
+will provide you with a number of summary statistics, including minimum
+and maximum values, quartiles, the mean and the median.</p>
+<div id="the-dollar-sign" class="section level3">
+<h3>The dollar sign: $</h3>
+<p>Often, you will want to focus in on particular columns, rather than
+looking at the data in its entirety. The dollar sign <code>$</code>
+enables you to focus in on one column, by referring to it by name. For
+example, you can identify and extract the column <code>Speaker</code>
+from the <code>Vowel_data</code> dataset by typing
+<code>Vowel_data$Speaker</code></p>
+<pre class="r"><code>speaker_column &lt;- Vowel_data$Speaker
+speaker_column</code></pre>
+<pre><code>##  [1] &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;B&quot; &quot;B&quot; &quot;B&quot; &quot;B&quot; &quot;B&quot; &quot;B&quot; &quot;B&quot; &quot;B&quot; &quot;B&quot;</code></pre>
+<p>If you want to check the levels for a factor, you can use the
+<code>levels()</code> function.</p>
+<pre class="r"><code>levels(Vowel_data$Speaker)</code></pre>
+<pre><code>## NULL</code></pre>
+<p>When you try the code above, it doesn’t work. Instead,
+<code>NULL</code> is displayed. This is because Speaker hasn’t been read
+in as a factor, but instead as character data.</p>
+<p>You can change this by typing:</p>
+<pre class="r"><code>Vowel_data$Speaker &lt;- as.factor(Vowel_data$Speaker)</code></pre>
+<p>Typing the below, will yield the levels of your factor:</p>
+<pre class="r"><code>levels(Vowel_data$Speaker)</code></pre>
+<pre><code>## [1] &quot;A&quot; &quot;B&quot;</code></pre>
+<p>You might be wondering when this might be useful. If you have a
+larger dataset, you might want to check for errors.</p>
+<p>For example, reading in the data below, there should only be two
+levels for the factor ‘Segment_label’: <code>q</code> and
+<code>ç</code>.</p>
+<pre class="r"><code>Erroneous_Albanian_data &lt;- read.csv(&quot;Affricate_plosive_measures_for_workshop_error.csv&quot;, stringsAsFactors = TRUE)
+head(Erroneous_Albanian_data, 10) # Here head() is being used to just display the first 10 rows of the data, rather than the whole thing.</code></pre>
+<pre><code>##    Participant Word_label Segment_label Position_label Plosion_label
+## 1            2      qorri             q             on             n
+## 2            2        çaj            ç              on             y
+## 3            2        qan             q             on             y
+## 4            2        çuk             ç             on             y
+## 5            2       çarë             ç             on             y
+## 6            2       qarë            qe             on             n
+## 7            2        qaj             q             on             n
+## 8            2      çorri             ç             on             y
+## 9            2       fuqi             q            med             n
+## 10           2       fuçi             ç            med             y
+##    Segment_duration Max_time  Rise_time STRING    START      END        DUR
+## 1        0.06406093 101.7709 0.03454158     rd 101.7364 101.8005 0.06406093
+## 2        0.07323654 114.1763 0.02269131     rd 114.1536 114.2269 0.07323654
+## 3        0.07674008 126.9249 0.04624180     rd 126.8787 126.9554 0.07674008
+## 4        0.07774579 156.9423 0.04297608     rd 156.8993 156.9770 0.07774579
+## 5        0.11079531 166.6928 0.08238480     rd 166.6104 166.7212 0.11079531
+## 6        0.16066059 174.1783 0.11691955     rd 174.0614 174.2221 0.16066059
+## 7        0.08216517 181.5851 0.04347153     rd 181.5416 181.6237 0.08216517
+## 8        0.07871393 189.6168 0.03026768     rd 189.5866 189.6653 0.07871393
+## 9        0.15019889 191.8968 0.05318893     rd 191.8436 191.9529 0.10923592
+## 10       0.17346243 197.1220 0.05224457     rd 197.0698 197.1803 0.11050954
+##     COG_MID SDEV_MID    SKEW_MID   KURT_MID Dialect Sex Bi.mon Age     Mean
+## 1  4330.047 1831.993  1.40243114  1.4862191       G   1      1  40 89.28571
+## 2  6629.542 2380.889 -0.08316916 -1.2366490       G   1      1  40 89.28571
+## 3  4137.292 1488.567  1.69908236  2.9111981       G   1      1  40 89.28571
+## 4  5247.916 2084.750  0.61067913 -0.5963266       G   1      1  40 89.28571
+## 5  6288.475 2300.844  0.17591190 -1.2737088       G   1      1  40 89.28571
+## 6  4119.860 1482.873  2.63140877 10.0811032       G   1      1  40 89.28571
+## 7  4336.820 1575.087  1.63685591  2.8326943       G   1      1  40 89.28571
+## 8  5662.815 2134.774  0.46253952 -0.5664275       G   1      1  40 89.28571
+## 9  4755.225 1711.365  1.48149622  1.8164262       G   1      1  40 89.28571
+## 10 4917.460 1773.858  1.23453603  1.3899469       G   1      1  40 89.28571
+##          Sd
+## 1  31.49704
+## 2  31.49704
+## 3  31.49704
+## 4  31.49704
+## 5  31.49704
+## 6  31.49704
+## 7  31.49704
+## 8  31.49704
+## 9  31.49704
+## 10 31.49704</code></pre>
+<p>However, looking at the levels for this factor, you can see two
+additional levels. One caused by the addition of a space after ‘ç’ and
+one because of an ‘e’ after ‘q’. To rectify this, the quickest way is
+going to be to go into the file outside of Rstudio, search for these
+erroneous examples, and replace them with the correct values.</p>
+<pre class="r"><code>levels(Erroneous_Albanian_data$Segment_label)</code></pre>
+<pre><code>## [1] &quot;ç&quot;  &quot;ç &quot; &quot;q&quot;  &quot;qe&quot;</code></pre>
+<p>When you have this data, you might be interested in particular pieces
+of information. Some things you can look at include the mean, median,
+range and standard deviation:</p>
+<pre class="r"><code>mean(Vowel_data$F1) # Mean</code></pre>
+<pre><code>## [1] 544.7778</code></pre>
+<pre class="r"><code>median(Vowel_data$F1) # Median</code></pre>
+<pre><code>## [1] 560</code></pre>
+<pre class="r"><code>range(Vowel_data$F1) # Range: Shows the mimimum and maximum values for the selected column</code></pre>
+<pre><code>## [1] 240 850</code></pre>
+<pre class="r"><code>sd(Vowel_data$F1) # Interquartile range</code></pre>
+<pre><code>## [1] 192.659</code></pre>
+</div>
+<div id="creating-new-columns" class="section level3">
+<h3>Creating new columns</h3>
+<p>You can create a new column based on a pre-existing column using the
+dollar sign and then giving the new column a name. In this example,
+we’ll create a new column for F2-F1 by subtracting the values from the
+column ‘F1’ from the column ‘F2’:</p>
+<pre class="r"><code>Vowel_data$F2_min_F1 &lt;- Vowel_data$F2 - Vowel_data$F1
+print(Vowel_data)</code></pre>
+<pre><code>##    Speaker Vowel  F1   F2 F2_min_F1
+## 1        A     i 240 2400      2160
+## 2        A     e 390 2300      1910
+## 3        A     ɛ 610 1900      1290
+## 4        A     æ 631 1355       724
+## 5        A     ɑ 750  940       190
+## 6        A     ɒ 700  760        60
+## 7        A     ɔ 500  700       200
+## 8        A     ʊ 419 1063       644
+## 9        A     u 250  595       345
+## 10       B     i 300 2500      2200
+## 11       B     e 490 2400      1910
+## 12       B     ɛ 710 2000      1290
+## 13       B     æ 721 1445       724
+## 14       B     ɑ 850 1030       180
+## 15       B     ɒ 800  855        55
+## 16       B     ɔ 600  799       199
+## 17       B     ʊ 520 1170       650
+## 18       B     u 325  699       374</code></pre>
+</div>
+<div id="removing-columns" class="section level3">
+<h3>Removing columns</h3>
+<p>If you wanted to remove the column ‘F2_min_F1’, you could type:</p>
+<pre class="r"><code>Vowel_data$F2_min_F1 &lt;- NULL</code></pre>
+<p>Similarly, if you wanted to remove the column ‘F2’ you would
+type:</p>
+<p><code>Vowel_data$F2 &lt;- NULL</code></p>
+</div>
+<div id="subsetting-data" class="section level3">
+<h3>Subsetting data</h3>
+<p>You can take a subset of the dataset using the <code>subset()</code>
+function. <code>subset()</code> takes two arguments: the name of the
+dataset, and the condition to subset on. If you just want to look at
+data from Speaker “A”, for instance, you can subset the data as
+follows:</p>
+<pre class="r"><code>Speaker_A &lt;- subset(Vowel_data, Speaker == &quot;A&quot;)
+Speaker_A</code></pre>
+<pre><code>##   Speaker Vowel  F1   F2
+## 1       A     i 240 2400
+## 2       A     e 390 2300
+## 3       A     ɛ 610 1900
+## 4       A     æ 631 1355
+## 5       A     ɑ 750  940
+## 6       A     ɒ 700  760
+## 7       A     ɔ 500  700
+## 8       A     ʊ 419 1063
+## 9       A     u 250  595</code></pre>
+<p>This isn’t the way that you can look at a subet of the data. You can
+also use square brackets (which I tend to find more complicated and tend
+to avoid, but it’s good to know unless you come across this notation in
+other people’s scripts).</p>
+<pre class="r"><code>Vowel_data[Vowel_data$Speaker == &quot;A&quot;, ]</code></pre>
+<pre><code>##   Speaker Vowel  F1   F2
+## 1       A     i 240 2400
+## 2       A     e 390 2300
+## 3       A     ɛ 610 1900
+## 4       A     æ 631 1355
+## 5       A     ɑ 750  940
+## 6       A     ɒ 700  760
+## 7       A     ɔ 500  700
+## 8       A     ʊ 419 1063
+## 9       A     u 250  595</code></pre>
+<p>Sometimes, you might want to filter in some other way. Let’s say, for
+example, that you are only interested in examples where F2 is greater
+than 1500Hz. You can filter the data in this way by using the
+<code>&gt;</code> “greater than” comparison operator, as follows:</p>
+<pre class="r"><code>Vowel_data_High_F2 &lt;- subset(Vowel_data, F2 &gt; 1500)
+Vowel_data_High_F2</code></pre>
+<pre><code>##    Speaker Vowel  F1   F2
+## 1        A     i 240 2400
+## 2        A     e 390 2300
+## 3        A     ɛ 610 1900
+## 10       B     i 300 2500
+## 11       B     e 490 2400
+## 12       B     ɛ 710 2000</code></pre>
+<p>Additional operators include:</p>
+<table style="width:75%">
+<tr>
+<th>
+Operator
+</th>
+<th>
+Name
+</th>
+<th>
+Example
+</th>
+</tr>
+<tr>
+<td>
+<center>
+==
+</center>
+</td>
+<td>
+<center>
+Equal to
+</center>
+</td>
+<td>
+<center>
+Speaker == “A”
+</center>
+</td>
+</tr>
+<tr>
+<td>
+<center>
+!=
+</center>
+</td>
+<td>
+<center>
+Not equal to
+</center>
+</td>
+<td>
+<center>
+Speaker != “A”
+</center>
+</td>
+</tr>
+<tr>
+<td>
+<center>
+&gt;
+</center>
+</td>
+<td>
+<center>
+Greater than
+</center>
+</td>
+<td>
+<center>
+F2 &gt; 1500
+</center>
+</td>
+</tr>
+<tr>
+<td>
+<center>
+&lt;
+</center>
+</td>
+<td>
+<center>
+Less than
+</center>
+</td>
+<td>
+<center>
+F2 &lt; 1500
+</center>
+</td>
+</tr>
+<tr>
+<td>
+<center>
+&gt;=
+</center>
+</td>
+<td>
+<center>
+Greater than or equal to
+</center>
+</td>
+<td>
+<center>
+F2 &gt;= 2000
+</center>
+</td>
+</tr>
+<tr>
+<td>
+<center>
+&lt;=
+</center>
+</td>
+<td>
+<center>
+Less than or equal to
+</center>
+</td>
+<td>
+<center>
+F2 &lt;= 2000
+</center>
+</td>
+</tr>
+</table>
+<p><br> You can combine subset conditions using the ampersand symbol
+<code>&amp;</code>. For example:</p>
+<pre class="r"><code>Vowel_data_A_High_F2 &lt;- subset(Vowel_data, Speaker == &quot;A&quot; &amp; F2 &gt; 1500)
+Vowel_data_A_High_F2</code></pre>
+<pre><code>##   Speaker Vowel  F1   F2
+## 1       A     i 240 2400
+## 2       A     e 390 2300
+## 3       A     ɛ 610 1900</code></pre>
+<p>You can also use functions on subsetted data. For example, you might
+do this if you wanted to know whether each participant has the same
+amount of data. One way to do this would be to think about how many rows
+there are for each speaker in your data. To do this you would use the
+<code>nrow()</code> function. Within this function, you would include
+your subsetted data as an argument, enabling you to pick out each
+individual participant. You might want to do something like this to
+detect where you might have missing observations.</p>
+<pre class="r"><code>nrow(subset(Vowel_data, Speaker == &quot;A&quot;))</code></pre>
+<pre><code>## [1] 9</code></pre>
+<pre class="r"><code>nrow(subset(Vowel_data, Speaker == &quot;B&quot;))</code></pre>
+<pre><code>## [1] 9</code></pre>
+<p>Obviously, this becomes more cumbersome the greater the number of
+speakers that you have. <code>dplyr</code> offers one way to circumvent
+this issue.</p>
+</div>
+</div>
+<div id="using-dplyr" class="section level2">
+<h2>Using dplyr</h2>
+<p><code>dplyr</code> enables you to manipulate your data in a variety
+of ways. You can use it to add and remove columns, filter and summarise
+your data.</p>
+<p>dplyr is part of the tidyverse - a suite of R packages that let you
+do a whole heap of stuff around data wrangling and visualisation. You
+can install all of the tidyverse packages, including dplyr and ggplot2,
+by typing <code>install.packages("tidyverse")</code></p>
+<p>If you just want to install <code>dplyr</code> and not whole
+tidyverse suite of packages, type
+<code>install.packages("dplyr")</code></p>
+<p>To see how dplyr works, let’s look at some Albanian data:</p>
+<pre class="r"><code>library(dplyr)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<pre class="r"><code>albanian_data &lt;- read.csv(&quot;Affricate_plosive_measures_for_workshop.csv&quot;, stringsAsFactors = T)
+str(albanian_data)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    811 obs. of  22 variables:
+##  $ Participant     : int  2 2 2 2 2 2 2 2 2 2 ...
+##  $ Word_label      : Factor w/ 14 levels &quot;çaj&quot;,&quot;çan&quot;,&quot;çarë&quot;,..: 13 1 11 5 3 12 10 4 7 6 ...
+##  $ Segment_label   : Factor w/ 2 levels &quot;ç&quot;,&quot;q&quot;: 2 1 2 1 1 2 2 1 2 1 ...
+##  $ Position_label  : Factor w/ 2 levels &quot;med&quot;,&quot;on&quot;: 2 2 2 2 2 2 2 2 1 1 ...
+##  $ Plosion_label   : Factor w/ 2 levels &quot;n&quot;,&quot;y&quot;: 1 2 2 2 2 1 1 2 1 2 ...
+##  $ Segment_duration: num  0.0641 0.0732 0.0767 0.0777 0.1108 ...
+##  $ Max_time        : num  102 114 127 157 167 ...
+##  $ Rise_time       : num  0.0345 0.0227 0.0462 0.043 0.0824 ...
+##  $ STRING          : Factor w/ 2 levels &quot;on&quot;,&quot;rd&quot;: 2 2 2 2 2 2 2 2 2 2 ...
+##  $ START           : num  102 114 127 157 167 ...
+##  $ END             : num  102 114 127 157 167 ...
+##  $ DUR             : num  0.0641 0.0732 0.0767 0.0777 0.1108 ...
+##  $ COG_MID         : num  4330 6630 4137 5248 6288 ...
+##  $ SDEV_MID        : num  1832 2381 1489 2085 2301 ...
+##  $ SKEW_MID        : num  1.4024 -0.0832 1.6991 0.6107 0.1759 ...
+##  $ KURT_MID        : num  1.486 -1.237 2.911 -0.596 -1.274 ...
+##  $ Dialect         : Factor w/ 2 levels &quot;G&quot;,&quot;T&quot;: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ Sex             : int  1 1 1 1 1 1 1 1 1 1 ...
+##  $ Bi.mon          : int  1 1 1 1 1 1 1 1 1 1 ...
+##  $ Age             : int  40 40 40 40 40 40 40 40 40 40 ...
+##  $ Mean            : num  89.3 89.3 89.3 89.3 89.3 ...
+##  $ Sd              : num  31.5 31.5 31.5 31.5 31.5 ...</code></pre>
+<p>There are quite a few columns here (22 variables). We could remove
+some of the columns that we are not interested in by using the
+<code>select()</code> function from dplyr. In this case we remove
+columns by typing <code>-</code> followed by the name of the column we
+don’t want to look at.</p>
+<p>Here we are removing 7 columns:</p>
+<pre class="r"><code>albanian_data_cut &lt;- albanian_data %&gt;% select(-Plosion_label, -Max_time, -STRING, -START, -END,  -Mean, -Sd)
+str(albanian_data_cut)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    811 obs. of  15 variables:
+##  $ Participant     : int  2 2 2 2 2 2 2 2 2 2 ...
+##  $ Word_label      : Factor w/ 14 levels &quot;çaj&quot;,&quot;çan&quot;,&quot;çarë&quot;,..: 13 1 11 5 3 12 10 4 7 6 ...
+##  $ Segment_label   : Factor w/ 2 levels &quot;ç&quot;,&quot;q&quot;: 2 1 2 1 1 2 2 1 2 1 ...
+##  $ Position_label  : Factor w/ 2 levels &quot;med&quot;,&quot;on&quot;: 2 2 2 2 2 2 2 2 1 1 ...
+##  $ Segment_duration: num  0.0641 0.0732 0.0767 0.0777 0.1108 ...
+##  $ Rise_time       : num  0.0345 0.0227 0.0462 0.043 0.0824 ...
+##  $ DUR             : num  0.0641 0.0732 0.0767 0.0777 0.1108 ...
+##  $ COG_MID         : num  4330 6630 4137 5248 6288 ...
+##  $ SDEV_MID        : num  1832 2381 1489 2085 2301 ...
+##  $ SKEW_MID        : num  1.4024 -0.0832 1.6991 0.6107 0.1759 ...
+##  $ KURT_MID        : num  1.486 -1.237 2.911 -0.596 -1.274 ...
+##  $ Dialect         : Factor w/ 2 levels &quot;G&quot;,&quot;T&quot;: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ Sex             : int  1 1 1 1 1 1 1 1 1 1 ...
+##  $ Bi.mon          : int  1 1 1 1 1 1 1 1 1 1 ...
+##  $ Age             : int  40 40 40 40 40 40 40 40 40 40 ...</code></pre>
+<p>You may have noticed the symbol <code>%&gt;%</code> above. This is
+called the “pipe operator” and can be used across tidyverse packages. To
+include the pipe operator, you can type
+<code>Cmd</code>/<code>Ctrl</code> + <code>Shift</code> +
+<code>M</code>. The pipe operator lets you code in sequence, piping
+along what you have moving from left to right. So when the code is
+executed, it does whatever is to the left of the pipe operator first,
+then does the thing to the right and so on. Although it sounds
+complicated, it can make code easier to follow.</p>
+<p>If we are interested in just a few of the columns from our data, we
+can also the <code>select()</code> function to zoom in on just those
+columns which are of interest. In this case, we do not include
+<code>-</code>, instead just typing the names of the columns that we do
+want to look at.</p>
+<pre class="r"><code>albanian_data_of_interest &lt;- albanian_data %&gt;% select(Participant, Segment_label, DUR, COG_MID, SDEV_MID, SKEW_MID, KURT_MID)
+str(albanian_data_of_interest)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    811 obs. of  7 variables:
+##  $ Participant  : int  2 2 2 2 2 2 2 2 2 2 ...
+##  $ Segment_label: Factor w/ 2 levels &quot;ç&quot;,&quot;q&quot;: 2 1 2 1 1 2 2 1 2 1 ...
+##  $ DUR          : num  0.0641 0.0732 0.0767 0.0777 0.1108 ...
+##  $ COG_MID      : num  4330 6630 4137 5248 6288 ...
+##  $ SDEV_MID     : num  1832 2381 1489 2085 2301 ...
+##  $ SKEW_MID     : num  1.4024 -0.0832 1.6991 0.6107 0.1759 ...
+##  $ KURT_MID     : num  1.486 -1.237 2.911 -0.596 -1.274 ...</code></pre>
+<p>Now, we have some data. However, let’s say we want to create a new
+column. We have a column here called ‘DUR’ (duration). This measurement
+was taken in seconds rather than milliseconds. If we wanted to add a new
+column for duration in ms, we could do this as follows:</p>
+<pre class="r"><code>albanian_data_of_interest &lt;- albanian_data_of_interest %&gt;% mutate(DUR_ms = DUR*1000)
+str(albanian_data_of_interest)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    811 obs. of  8 variables:
+##  $ Participant  : int  2 2 2 2 2 2 2 2 2 2 ...
+##  $ Segment_label: Factor w/ 2 levels &quot;ç&quot;,&quot;q&quot;: 2 1 2 1 1 2 2 1 2 1 ...
+##  $ DUR          : num  0.0641 0.0732 0.0767 0.0777 0.1108 ...
+##  $ COG_MID      : num  4330 6630 4137 5248 6288 ...
+##  $ SDEV_MID     : num  1832 2381 1489 2085 2301 ...
+##  $ SKEW_MID     : num  1.4024 -0.0832 1.6991 0.6107 0.1759 ...
+##  $ KURT_MID     : num  1.486 -1.237 2.911 -0.596 -1.274 ...
+##  $ DUR_ms       : num  64.1 73.2 76.7 77.7 110.8 ...</code></pre>
+<p>We can also use dplyr to rename columns. In this case, let’s change
+‘Segment_label’ to the easier to work with ‘Segment’:</p>
+<pre class="r"><code>albanian_data_of_interest &lt;- albanian_data_of_interest %&gt;% rename(Segment = Segment_label)
+str(albanian_data_of_interest)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    811 obs. of  8 variables:
+##  $ Participant: int  2 2 2 2 2 2 2 2 2 2 ...
+##  $ Segment    : Factor w/ 2 levels &quot;ç&quot;,&quot;q&quot;: 2 1 2 1 1 2 2 1 2 1 ...
+##  $ DUR        : num  0.0641 0.0732 0.0767 0.0777 0.1108 ...
+##  $ COG_MID    : num  4330 6630 4137 5248 6288 ...
+##  $ SDEV_MID   : num  1832 2381 1489 2085 2301 ...
+##  $ SKEW_MID   : num  1.4024 -0.0832 1.6991 0.6107 0.1759 ...
+##  $ KURT_MID   : num  1.486 -1.237 2.911 -0.596 -1.274 ...
+##  $ DUR_ms     : num  64.1 73.2 76.7 77.7 110.8 ...</code></pre>
+<div id="getting-descriptive-statistics-using-dplyr"
+class="section level3">
+<h3>Getting descriptive statistics using dplyr</h3>
+<p><code>dplyr</code> is very useful for obtaining summaries for groups
+or individuals within your data.</p>
+<p>Working with the ‘albanian_data_of_interest’ that we created, we
+extract descriptive statistics for groups of speakers using the
+<code>group_by()</code> function within dplyr. This subsets your data.
+Then you can summarise the subsetted data using the
+<code>summarise()</code>/<code>summarize()</code> function. Below we
+will extract the mean and standard deviation values for duration, using
+<code>mean()</code> and <code>sd()</code> respectively.</p>
+<pre class="r"><code>albanian_data_of_interest$Participant &lt;- as.factor(albanian_data_of_interest$Participant) # I&#39;m changing participant to a factor here, rather than a numerical value. It doesn&#39;t impact the below code if you do not do this.
+duration_by_participant &lt;- albanian_data_of_interest %&gt;% group_by(Participant) %&gt;% summarise(mean_dur = mean(DUR_ms), sd_dur = sd(DUR_ms))
+print(duration_by_participant)</code></pre>
+<pre><code>## # A tibble: 29 × 3
+##    Participant mean_dur sd_dur
+##    &lt;fct&gt;          &lt;dbl&gt;  &lt;dbl&gt;
+##  1 2               90.3   23.3
+##  2 3              103.    26.5
+##  3 4              106.    19.0
+##  4 5               85.3   16.5
+##  5 6               85.7   30.6
+##  6 8               83.2   17.4
+##  7 9              100.    19.3
+##  8 10             114.    11.6
+##  9 11              92.1   28.7
+## 10 12             121.    27.9
+## # ℹ 19 more rows</code></pre>
+<p>This is a good start, but it has ignored the fact that there were two
+segments. We want to know the mean and standard deviations for each
+segment for each of the speakers. In order to do this, you can add an
+additional group, ‘Segment’ to the <code>group_by()</code> function.</p>
+<pre class="r"><code>duration_summary &lt;- albanian_data_of_interest %&gt;% group_by(Participant, Segment) %&gt;% summarise(mean_dur = mean(DUR_ms), sd_dur = sd(DUR_ms))</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;Participant&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<pre class="r"><code>print(duration_summary)</code></pre>
+<pre><code>## # A tibble: 58 × 4
+## # Groups:   Participant [29]
+##    Participant Segment mean_dur sd_dur
+##    &lt;fct&gt;       &lt;fct&gt;      &lt;dbl&gt;  &lt;dbl&gt;
+##  1 2           ç           86.2   14.6
+##  2 2           q           94.3   29.7
+##  3 3           ç           88.7   15.7
+##  4 3           q          117.    28.0
+##  5 4           ç           96.9   17.7
+##  6 4           q          114.    16.6
+##  7 5           ç           76.2   14.1
+##  8 5           q           94.4   13.8
+##  9 6           ç           70.1   17.3
+## 10 6           q          101.    33.4
+## # ℹ 48 more rows</code></pre>
+</div>
+<div id="recoding-factors" class="section level3">
+<h3>Recoding factors</h3>
+<p>So far, so good. But there is one more issue with this data that we
+can resolve using dplyr. The segment labels that have been used in the
+data above relate to orthography. Now, let’s say that we want to use the
+corresponding IPA symbols. We can change this by recoding the
+factor:</p>
+<pre class="r"><code>duration_summary &lt;- duration_summary %&gt;% mutate(Segment = recode_factor(Segment,  q = &quot;/c/&quot;, ç = &quot;/tʃ/&quot;))
+print(duration_summary)</code></pre>
+<pre><code>## # A tibble: 58 × 4
+## # Groups:   Participant [29]
+##    Participant Segment mean_dur sd_dur
+##    &lt;fct&gt;       &lt;fct&gt;      &lt;dbl&gt;  &lt;dbl&gt;
+##  1 2           /tʃ/        86.2   14.6
+##  2 2           /c/         94.3   29.7
+##  3 3           /tʃ/        88.7   15.7
+##  4 3           /c/        117.    28.0
+##  5 4           /tʃ/        96.9   17.7
+##  6 4           /c/        114.    16.6
+##  7 5           /tʃ/        76.2   14.1
+##  8 5           /c/         94.4   13.8
+##  9 6           /tʃ/        70.1   17.3
+## 10 6           /c/        101.    33.4
+## # ℹ 48 more rows</code></pre>
+</div>
+<div id="back-to-number-of-rows" class="section level3">
+<h3>Back to number of rows</h3>
+<p>What if we wanted summarise the number of rows per person. Doing this
+individually using <code>nrow(subset())</code> would prove cumbersome.
+We can do this very simply in dplyr, using <code>n()</code> within the
+<code>summarise()</code> function. In this case, <code>n()</code>
+displays the number of rows:</p>
+<pre class="r"><code>rows_by_participant &lt;- albanian_data_of_interest %&gt;% group_by(Participant) %&gt;% summarise(num_of_rows = n())
+rows_by_participant</code></pre>
+<pre><code>## # A tibble: 29 × 2
+##    Participant num_of_rows
+##    &lt;fct&gt;             &lt;int&gt;
+##  1 2                    28
+##  2 3                    28
+##  3 4                    28
+##  4 5                    28
+##  5 6                    28
+##  6 8                    28
+##  7 9                    28
+##  8 10                   28
+##  9 11                   28
+## 10 12                   28
+## # ℹ 19 more rows</code></pre>
+<p>You can then check the range of values using base R, typing:</p>
+<pre class="r"><code>range(rows_by_participant$num_of_rows)</code></pre>
+<pre><code>## [1] 27 28</code></pre>
+<p>Here, it’s clear that not all participants have the same number of
+rows. In this case, this is due to the removal of tokens which occurred
+with too much background noise.</p>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

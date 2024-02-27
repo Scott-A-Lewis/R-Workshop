@@ -1,0 +1,289 @@
+---
+title: "Working with the dataset"
+output:
+  html_document:
+    css: "style.css"
+    toc: true
+    toc_float: true
+  pdf_document: default
+theme: paper
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Exploring data
+
+Before we start, let's load in some data:
+
+```{r}
+Vowel_data <- read.csv("Vowels_to_plot.csv")
+```
+
+Once you have loaded in data, you will want to explore it.
+
+To check the structure of your data, you can use the `str()` function. This will tell you how many rows of data you have, how many variables you have and what kind of data you have for each variable (e.g. characters (`chr`), numbers (e.g. `int` or `num`) or factors (`Factor`). For factors, you will be able to see how many levels (e.g. how many participants, how many vowels, etc.), which can be useful for detecting errors (if there are more or fewer levels than you were expecting).
+
+```{r}
+str(Vowel_data)
+```
+
+Another thing you might want to do is establish the number of rows in the dataset. In order to to do this, you can use `nrow()`. If you are interested in the number of columns, you can use `ncol()`.
+
+```{r}
+nrow(Vowel_data)
+ncol(Vowel_data)
+```
+
+In order to get a brief summary of all the columns in your dataset you can use `summary()`.
+
+```{r}
+summary(Vowel_data)
+```
+
+You will notice, that for the columns containing numerical data, R will provide you with a number of summary statistics, including minimum and maximum values, quartiles, the mean and the median.
+
+### The dollar sign: $
+
+Often, you will want to focus in on particular columns, rather than looking at the data in its entirety.
+The dollar sign `$` enables you to focus in on one column, by referring to it by name. For example, you can identify and extract the column `Speaker` from the `Vowel_data` dataset by typing `Vowel_data$Speaker`
+
+```{r}
+speaker_column <- Vowel_data$Speaker
+speaker_column
+```
+
+If you want to check the levels for a factor, you can use the `levels()` function. 
+
+```{r}
+levels(Vowel_data$Speaker)
+```
+
+When you try the code above, it doesn't work. Instead, `NULL` is displayed. This is because Speaker hasn't been read in as a factor, but instead as character data.
+
+You can change this by typing:
+
+```{r}
+Vowel_data$Speaker <- as.factor(Vowel_data$Speaker)
+```
+
+Typing the below, will yield the levels of your factor:
+
+```{r}
+levels(Vowel_data$Speaker)
+```
+
+You might be wondering when this might be useful. If you have a larger dataset, you might want to check for errors.
+
+For example, reading in the data below, there should only be two levels for the factor 'Segment_label': `q` and `ç`.
+
+```{r}
+Erroneous_Albanian_data <- read.csv("Affricate_plosive_measures_for_workshop_error.csv", stringsAsFactors = TRUE)
+head(Erroneous_Albanian_data, 10) # Here head() is being used to just display the first 10 rows of the data, rather than the whole thing.
+```
+
+However, looking at the levels for this factor, you can see two additional levels. One caused by the addition of a space after 'ç' and one because of an 'e' after 'q'. To rectify this, the quickest way is going to be to go into the file outside of Rstudio, search for these erroneous examples, and replace them with the correct values. 
+
+```{r}
+levels(Erroneous_Albanian_data$Segment_label)
+```
+
+### Basic data summary
+
+When you have your data, you might be interested in particular pieces of information.
+Some things you can look at include the mean, median, range and standard deviation:
+
+```{r}
+mean(Vowel_data$F1) # Mean
+median(Vowel_data$F1) # Median
+range(Vowel_data$F1) # Range: Shows the mimimum and maximum values for the selected column
+sd(Vowel_data$F1) # Interquartile range
+```
+
+### Creating new columns
+You can create a new column based on a pre-existing column using the dollar sign and then giving the new column a name. In this example, we’ll create a new column for F2-F1 by subtracting the values from the column 'F1' from the column 'F2':
+
+```{r}
+Vowel_data$F2_min_F1 <- Vowel_data$F2 - Vowel_data$F1
+print(Vowel_data)
+```
+
+### Removing columns
+
+If you wanted to remove the column 'F2_min_F1', you could type:
+
+```{r}
+Vowel_data$F2_min_F1 <- NULL
+```
+
+Similarly, if you wanted to remove the column 'F2' you would type:
+
+`Vowel_data$F2 <- NULL`
+
+### Subsetting data
+
+You can take a subset of the dataset using the `subset()` function. `subset()` takes two arguments: the name of the dataset, and the condition to subset on. If you just want to look at data from Speaker “A”, for instance, you can subset the data as follows:
+
+```{r}
+Speaker_A <- subset(Vowel_data, Speaker == "A")
+Speaker_A
+```
+
+This isn't the way that you can look at a subet of the data. You can also use square brackets (which I tend to find more complicated and tend to avoid, but it's good to know unless you come across this notation in other people's scripts).
+
+```{r}
+Vowel_data[Vowel_data$Speaker == "A", ]
+```
+
+Sometimes, you might want to filter in some other way. Let's say, for example, that you are only interested in examples where F2 is greater than 1500Hz. You can filter the data in this way by using the `>` "greater than" comparison operator, as follows:
+
+```{r}
+Vowel_data_High_F2 <- subset(Vowel_data, F2 > 1500)
+Vowel_data_High_F2
+```
+
+Additional operators include:
+
+<table style="width:75%">
+  <tr>
+    <th>Operator</th>
+    <th>Name</th>
+    <th>Example</th>
+  </tr>
+  <tr>
+   <td><center>==</center></td>
+   <td><center>Equal to</center></td>
+   <td><center>Speaker == "A"</center></td>
+  </tr>
+  <tr>
+   <td><center>!=</center></td>
+   <td><center>Not equal to</center></td>
+   <td><center>Speaker != "A"</center></td>
+  </tr>
+  <tr>
+   <td><center>\></center></td>
+   <td><center>Greater than</center></td>
+   <td><center>F2 > 1500</center></td>
+  </tr>
+  <tr>
+   <td><center>\<</center></td>
+   <td><center>Less than</center></td>
+   <td><center>F2 < 1500</center></td>
+  </tr>
+  <tr>
+   <td><center>\>\=</center></td>
+   <td><center>Greater than or equal to</center></td>
+   <td><center>F2 >= 2000</center></td>
+  </tr>
+  <tr>
+   <td><center>\<\=</center></td>
+   <td><center>Less than or equal to</center></td>
+   <td><center>F2 \<\= 2000</center></td>
+  </tr>
+</table>
+
+<br>
+You can combine subset conditions using the ampersand symbol `&`. For example:
+
+```{r}
+Vowel_data_A_High_F2 <- subset(Vowel_data, Speaker == "A" & F2 > 1500)
+Vowel_data_A_High_F2
+```
+
+You can also use functions on subsetted data. For example, you might do this if you wanted to know whether each participant has the same amount of data. One way to do this would be to think about how many rows there are for each speaker in your data. To do this you would use the `nrow()` function. Within this function, you would include your subsetted data as an argument, enabling you to pick out each individual participant. You might want to do something like this to detect where you might have missing observations.
+
+```{r}
+nrow(subset(Vowel_data, Speaker == "A"))
+nrow(subset(Vowel_data, Speaker == "B"))
+```
+
+Obviously, this becomes more cumbersome the greater the number of speakers that you have. `dplyr` offers one way to circumvent this issue.
+
+## Using dplyr
+
+`dplyr` enables you to manipulate your data in a variety of ways. You can use it to add and remove columns, filter and summarise your data.
+
+dplyr is part of the tidyverse - a suite of R packages that let you do a whole heap of stuff around data wrangling and visualisation. You can install all of the tidyverse packages, including dplyr and ggplot2, by typing `install.packages("tidyverse")`
+
+If you just want to install `dplyr` and not whole tidyverse suite of packages, type `install.packages("dplyr")`
+
+To see how dplyr works, let's look at some Albanian data:
+
+```{r, message = FALSE}
+library(dplyr)
+albanian_data <- read.csv("Affricate_plosive_measures_for_workshop.csv", stringsAsFactors = T)
+str(albanian_data)
+```
+There are quite a few columns here (22 variables). We could remove some of the columns that we are not interested in by using the `select()` function from dplyr. In this case we remove columns by typing `-` followed by the name of the column we don't want to look at.
+
+Here we are removing 7 columns:
+
+```{r}
+albanian_data_cut <- albanian_data %>% select(-Plosion_label, -Max_time, -STRING, -START, -END,  -Mean, -Sd)
+str(albanian_data_cut)
+```
+You may have noticed the symbol `%>%` above. This is called the "pipe operator" and can be used across tidyverse packages. To include the pipe operator, you can type `Cmd`/`Ctrl` + `Shift` + `M`. The pipe operator lets you code in sequence, piping along what you have moving from left to right. So when the code is executed, it does whatever is to the left of the pipe operator first, then does the thing to the right and so on. Although it sounds complicated, it can make code easier to follow. 
+
+If we are interested in just a few of the columns from our data, we can also the `select()` function to zoom in on just those columns which are of interest. In this case, we do not include `-`, instead just typing the names of the columns that we do want to look at.
+
+```{r}
+albanian_data_of_interest <- albanian_data %>% select(Participant, Segment_label, DUR, COG_MID, SDEV_MID, SKEW_MID, KURT_MID)
+str(albanian_data_of_interest)
+```
+Now, we have some data. However, let's say we want to create a new column. We have a column here called 'DUR' (duration). This measurement was taken in seconds rather than milliseconds. If we wanted to add a new column for duration in ms, we could do this as follows:
+
+```{r}
+albanian_data_of_interest <- albanian_data_of_interest %>% mutate(DUR_ms = DUR*1000)
+str(albanian_data_of_interest)
+```
+
+If we wanted to, we could change use `mutate()` to change `DUR` to be `DUR*1000` so that there wouldn't be a need to add a new column to the data (i.e. `DUR_ms`).
+
+We can also use dplyr to rename columns. In this case, let's change 'Segment_label' to the easier to work with 'Segment':
+
+```{r}
+albanian_data_of_interest <- albanian_data_of_interest %>% rename(Segment = Segment_label)
+str(albanian_data_of_interest)
+```
+### Getting descriptive statistics using dplyr
+
+`dplyr` is very useful for obtaining summaries for groups or individuals within your data.
+
+Working with the 'albanian_data_of_interest' that we created, we extract descriptive statistics for groups of speakers using the `group_by()` function within dplyr. This subsets your data. Then you can summarise the subsetted data using the `summarise()`/`summarize()` function. Below we will extract the mean and standard deviation values for duration, using `mean()` and `sd()` respectively.  
+
+```{r}
+albanian_data_of_interest$Participant <- as.factor(albanian_data_of_interest$Participant) # I'm changing participant to a factor here, rather than a numerical value. It doesn't impact the below code if you do not do this.
+duration_by_participant <- albanian_data_of_interest %>% group_by(Participant) %>% summarise(mean_dur = mean(DUR_ms), sd_dur = sd(DUR_ms))
+print(duration_by_participant)
+```
+
+This is a good start, but it has ignored the fact that there were two segments. We want to know the mean and standard deviations for each segment for each of the speakers. In order to do this, you can add an additional group, 'Segment' to the `group_by()` function.
+
+```{r}
+duration_summary <- albanian_data_of_interest %>% group_by(Participant, Segment) %>% summarise(mean_dur = mean(DUR_ms), sd_dur = sd(DUR_ms))
+print(duration_summary)
+```
+
+### Recoding factors
+
+So far, so good. But there is one more issue with this data that we can resolve using dplyr. The segment labels that have been used in the data above relate to orthography. Now, let's say that we want to use the corresponding IPA symbols. We can change this by recoding the factor:  
+
+```{r}
+duration_summary <- duration_summary %>% mutate(Segment = recode_factor(Segment,  q = "/c/", ç = "/tʃ/"))
+print(duration_summary)
+```
+
+### Back to number of rows
+
+What if we wanted summarise the number of rows per person. Doing this individually using `nrow(subset())` would prove cumbersome. We can do this very simply in dplyr, using `n()` within the `summarise()` function. In this case, `n()` displays the number of rows:
+
+```{r}
+rows_by_participant <- albanian_data_of_interest %>% group_by(Participant) %>% summarise(num_of_rows = n())
+rows_by_participant
+```
+You can then check the range of values using base R, typing:
+```{r}
+range(rows_by_participant$num_of_rows)
+```
+Here, it's clear that not all participants have the same number of rows. In this case, this is due to the removal of tokens which occurred with too much background noise.

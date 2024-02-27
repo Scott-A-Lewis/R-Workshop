@@ -1,0 +1,629 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Working with data},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Working with data}
+\author{}
+\date{\vspace{-2.5em}}
+
+\begin{document}
+\maketitle
+
+\n
+\n
+
+\hypertarget{introduction}{%
+\subsection{Introduction}\label{introduction}}
+
+The aim of this section is to explore some of the simple ways in which
+you can read data into R.
+
+There are many packages and functions available for reading in data.
+I'll introduce two methods that can be used with common file types. Both
+methods are straightforward to use.
+
+The package that you use to read files into R really depends on the type
+of file that you are trying to read in.
+
+If you are working with Microsoft Excel files, then using
+\texttt{read\_excel} is a nice, simple way of reading in files.
+
+In contrast, \texttt{read.csv()} lets you read in files where columns
+are separated, for example, by tabs, spaces, or commas. Files you might
+want to open in this way are those ending in \texttt{.txt} and
+\texttt{.csv}.
+
+If you are working with more specialist file extensions, you will almost
+definitely find an available package and documentation to help you work
+with those files online via a quick Google search.
+
+\n
+\n
+
+\hypertarget{working-directory}{%
+\subsection{Working directory}\label{working-directory}}
+
+Before thinking about loading files, it is worth considering where you
+are loading files from.
+
+The working directory is used to tell R where to look for files and
+where to save them. Knowing your working directory can help you save
+time when it comes to typing out file names to load into R. For example,
+if you are loading a file from the working directory, you can simply
+type the name of the file, rather than having to type out the entire
+directory path, meaning:
+
+\texttt{read.csv("file.csv")} versus something more cumbersome like
+\texttt{read.csv("c:/Users/Me/Documents/file.csv")}
+
+To find out your current working directory, type \texttt{getwd()} into
+your console and press return.
+
+To change your working directory, type \texttt{setwd()}, making sure to
+put the new directory inside the brackets. For example,
+\texttt{setwd("/Users/Me/Desktop")}. \emph{Note the quotation marks
+around the filename -- the file won't be found otherwise.}
+
+\n
+\n
+
+\hypertarget{read.csv}{%
+\subsection{\texorpdfstring{\texttt{read.csv()}}{read.csv()}}\label{read.csv}}
+
+\hypertarget{reading-in-.csv-and-.txt-files.}{%
+\subsubsection{\texorpdfstring{Reading in \texttt{.csv} and
+\texttt{.txt}
+files.}{Reading in .csv and .txt files.}}\label{reading-in-.csv-and-.txt-files.}}
+
+When you start up R, the \texttt{utils} package is automatically loaded,
+meaning you don't need to do anything. You can use this package to
+import data stored in the CSV format (``comma-separated values'' files,
+ending .csv) using the \texttt{read.csv()} function.
+
+To use this function, put the name of the file that you want to open
+inside the brackets \texttt{read.csv("put\_me\_here\_please.csv")}. You
+can put the file name inside single
+\texttt{\textquotesingle{}\ \textquotesingle{}} or double \texttt{"\ "}
+quotation marks. It doesn't matter which.
+
+You can assign a name to the file that you are reading in by typing
+\texttt{\textless{}-}.
+
+For example typing
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{file }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"Vowels\_to\_plot.xlsx"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in read.table(file = file, header = header, sep = sep, quote = quote, :
+## line 1 appears to contain embedded nulls
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in read.table(file = file, header = header, sep = sep, quote = quote, :
+## line 2 appears to contain embedded nulls
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in read.table(file = file, header = header, sep = sep, quote = quote, :
+## line 4 appears to contain embedded nulls
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in read.table(file = file, header = header, sep = sep, quote = quote, :
+## line 5 appears to contain embedded nulls
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in scan(file = file, what = what, sep = sep, quote = quote, dec = dec,
+## : embedded nul(s) found in input
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(file)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         PK...
+## 1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          \a
+## 2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           \x9f\x97\021\xb0\xe0j\x8f\x95h\x88⥔X7\xe0\024\x96!\x82\xe7\x95qHN\021?\xa6\x89\x8c\xaa\x9e\xaa\t\xc8A\xbf\177.\xeb\xe0\t<\xf5\xa8\xc5\020\xa3\xe1
+## 3                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       \x8c\xd5\xccRq\xbb\xe0\xd7+%oƋ\xe2z\xb5\xaf\xa5\xaa\x84\x8aњZ\021\v\x95s\xaf\177\x90\xf4\xc2xljС\x9e9\x86.1&P\032\033
+## 4                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         g\xff\xad\x81\xc7[n
+## 5                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               z_\xeeU\xa7\016\024\xf6\006r\x99\177f\xa3\017
+## 6                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                \xbbg\xf6\xefx^\x9e\xa0~\001
+## 7                                                                                                                                                                                                                                                                                                              JU\xf8\xaf>\x81\xfe\xa6#\x8a\xb602\xa4\x95]`\x89X\033R\xf6xb\xc4\xc9L\xb6\xfc+\xa0\xd57 /\x9e={\xfe\xf0\xe9\xf3\x87\xbf=\177\xf4\xe8\xf9\xc3_\xb2\xb9\xb5*Kn\a%SS\xeeՏ_\xff\xfd\xfd\027\xde_\xbf\xfe\xf0\xea\xf17\xe9\xd4'\xf1\xc2Ŀ\xfc\xf9˗\xbf\xff\xf1:\xf5\xb0\xe2\xdc\025/\xbe}\xf2\xf2\xe9\x93\027\xdf}\xf5\xe7O\x8f\035\xda\xdb\034\035\x98\xf0!\x89\xb1\xf0\xae\xe1c\xef&\x8ba\x81\016\xfb\xf1\001?\x9d\xc40BĒ@\021\xe8v\xa8\xee\xcb\xc8\002^[ \xea\xc2u\xb0\xed\xc2\xdb\034X\xc6\005\xbc<\xbfkٺ\037\xf1\xb9$\x8e\x99\xafF\xb1\005\xdcc\x8cv\030w:ચ\xcb\xf0\xf0p\x9eLݓ󹉻\x89Бk\xee.J\xac
+## 8                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       \x8a\022\x89\xa68\xc1\xd2S\xbf\xb1C\x8c\035\xab\xbbC\x88\xe5\xd7=2\xe2L\xb0\x89\xf4\xee\020\xaf\x83\x88\xd3%Cr`%R.\xb4Cb\x88\xcb\xc2e \x84\xda\xf2\xcd\xdem\xafèk\xd5=|d#a[ \xea0~\x88\xa9\xe5\xc6\xcbh.Q\xecR9D15\035\xbe\x8bd\xe42r\177\xc1G&\xae/$Dz\x8a)\xf3\xfac
+## 9                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 \x84K\xe6:\x87\xf5\032A\xbf
+## 10                                                                                                                                                                                                                                                                                              \f\xe3\016\xfb\036]\xc46\x92Kr\xe8ҹ\x8b\0303\x91=v؍P<s\xdaL\x92\xc8\xc4~&\016!E\x91w\x83I\027|\x8f\xd9;D=C\034P\xb21ܷ\t\xb6\xc2\xfdf\xb8\005\xe4j\x9a\x94'\x88\xfae\xce\035\xb1\xbc\x8c\x99\xbd\037\027t\x82\xb0\x8be\xda<\xb6ص͉3;:\xf3\xa9\x95ڻ\030St\x8c\xc6\030{\xb7>sX\xd0a3\xcb\xe7\xb9\xd1W`\x95\035\xecJ\xac+\xc8\xceU\xf5\x9c`\001e\x92\xaak\xd6)r\x97\b+e\xf7\xf1\x94m\xb0goq\x82x\026(\x89\021ߤ\xf9\032D\xddJ]8\xe5\x9cTz\x9d\x8e\016M\xe05\002\xe5\037\xe4\x8b\xd3)\xd7\005\xe80\x92\xbb\xbfI\xeb\x8d\bYg\x97z\026\xee|]p+~o\xb3\xc7`_\xde=\xed\xbe\004\031|j\031 \xf6\xb7\xf6\xcd\020Qk\x82<a\x86\b
+## 11                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   \f\027݂\x88\025\xfe\\D\x9d\xabZl؛6\017\003\024FV\xbd\023\x93\xe4\x8d\xc5ω\xb2'\xfcw\xca\036w\001s\006\005\x8f[\xf1\xfb\x94:\x9b(e\xe7D\x81\xb3\t\xf7\037
+## 12 kzh\x9e\xdc\xc0p\x92\xacs\xd6yUs^\xd5\xf8\xff\xfb\xaaf\xd3^>\xafe\xcek\x99\xf3Z\xc6\xf5\xf6\xf5Aj\x99\xbc|\x81\xca&\xef\xf2\xe8\x9eO\xbc\xb1\xe53!\x94\xee\xcb\005ŻBw}\004\xbcь\a0\xa8\xdbQ\xba'\xb9j\001\xce\xf8\x9a5\x98,ܔ#-\xe3q&?'2ڏ\xd0\fZCe\xdd\xc0\x9c\x8aL\xf5Tx3&\xa0c\xa4\x87u+\025\x9fЭ\xfbN\xf3x\x8f\x8d\xd3Ng\xb9\xac\xba\x9a\xa9\v\005\x92\xf9x)\\\x8dC\x97J\xa6\xe8Z=\xefޭ\xd4\xeb~\xe8TwY\x97\006(\xd9\xd3\030aLf\033Qu\030Q_\016B\024^g\x84^ٙX\xd1tX\xd1PꗡZFq\xe5\n0m\025\025x\xe5\xf6\xe0E\xbd\xe5\x87A\xdaA\x86f\034\x94\xe7c\025\xa7\xb4\x99\xbc\x8c\xae\nΙFz\x933\xa9\x99\001Pb/3 \x8ftSٺqyjui\xaa\xbdE\xa4-#\x8ct\xb3\x8d0\xd20\x82\027\xe1,;͖\xfbYƺ\x99\x87\xd42O\xb9b\xb9\033r3\xea\x8d\017\021kE'\xb8\x81&&S\xd0\xc4;n\xf9\xb5j\b\xb7*#4k\xf9\023\xe8\030\xc3\xd7x\006\xb9#\xd4[\027\xa2S\xb8v\031I\x9en\xf8wa\x96\031\027\xb2\x87D\x94:\\\x93N\xca\0061\x91\x98{\x94\xc4-_-\177\x95
+## 13                                                                                                                                                                                                                                                                                                                                                                                                                                                                           4\xd1\034\xa2m+W\x80\020>Z\xe3\x9a@+\037\x9bq\020t;\xc8x2\xc1#i\x86\xdd\030Q\x9eN\037\x81\xe1S\xaep\xfe\xaa\xc5\xdf\035\xac$\xd9\034½\037\x8d\x8f\xbd\003:\xe77\021\xa4XX/+\a\x8e\x89\x80\x8b\x83r\xea\xcd1\x81\x9b\xb0\025\x91\xe5\xf9w\xe2`\xcah\u05fc\x8a\xd29\x94\x8e#:\x8bPv\xa2\x98d\x9e\xc25\x89\xae\xcc\xd1O+\037\030Oٚ\xc1\xa1\xeb.<\x98\xaa\003\xf6\xbdO\xdd7\037\xd5\xcas\006i\xe6g\xa6\xc5*\xea\xd4t\x93\xe9\x87;\xe4
+## 14                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     \xab\xf2CԲ*\xa5n\xfdN-r\xaek.\xb9\016\022\xd5yJ\xbc\xe1\xd4}\x8b\003\xc10-\x9f\xcc2MY\xbcNÊ\xb3\xb3Q۴3
+## 15                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      \b\fO\xd46\xf8muF8=\xf1\xae'?ȝ\xccZu@
+## 16                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             \xebJ\x9d\xf8\xfa\xcaܼ\xd5f\aw\x81<zp\1778\xa7R\xe8PBo\x97#(\xfa\xd2\033Ȕ6`\x8bܓY\x8d\b\u07fc9'-\xff~)l\a\xddJ\xd8-\x94\032a\xbf\020T\x83R\xa1\021\xb6\xab\x85v\030V\xcb\xfd\xb0\\\xeau*\017\xe0`\x91Q\\\016\xd3\xeb\xfa\001\\a\xd0Evi\xaf\xc7\xd7.\xee\xe3\xe5-ͅ\021\x8b\x8bL_\xcc\027\xb5\xe1\xfa\xe2\xbe\\\xd9|q\xef\021 \x9d\xfb\xb5ʠYmvj\x85f\xb5=(\004\xbdN\xa3\xd0\xec\xd6:\x85^\xad[\xef
+## 17                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       zݰ\xd1\034<\xf0\xbd#
+## 18                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        \016\xda\xd5nP\xeb7
+## 19                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   \xb5r\xb7[\bj%e~\xa3Y\xa8\a\x95J;\xa8\xb7\033\xfd\xa0\xfd +c`\xe5)}d\xbe
+## 20                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      \xd0D\x98\xe4i\xa9\x856\xc8A\xeb\xa0r\x9dFQ\xc9z\x8f[*\xf8\xc6p\xefVS\xc9űW\xc7^\xd1u{\xf0\x93\034j\xef\x95\xc4\xf3\xe8ٜ\xe3̼\xe5\xed\xa0\035\xb6\005p.\xc4(\xd5^\x91\xa7\xf0&\0343\xaa
+## 21                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             \veT\x9fS\xa8\xa2\022\xcd\a\xc9 1\xa6@p\u05f6\xf7\x90\xc9pBC\xf8U\xdc\027s\xd3\xf4\003\xad\xeb\xea׃\x97:o\xd9\036^ϧ\x97O{\x97X
+## 22                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                9\xd0wU\xc2\xff\xd6\023G)h\xcb\xe6=\xc03Vc\xaaO\xc2V\xe5\xa2n\xec'\t\xd7Llgd\x9ci\xbb`\xec\xe1\xef\xb7\xe3;
+## 23                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      \f\025Ԡ\xbc\xc34\xa1\xf8\xc7\xeb\xc1\xd6\xee\xcf\v\x9d2r֥?\x99\xd0\xe9\034w̖\xa2\027\a\xf7ѕ\x83\xb1i\x9a\xa4\x99t1B~\x8a\xdf֫MW5.U\xbb+\001\xa8Ȥ`\xc2\002\xf7\xda\026\033\xa1\xbd\x8fVД.ãy\xbbÊ;\xbf\016\xebޕ \037N\xbf\xad\xd7r\xa0v%z4\xc8(\xc4b}\x89\x8b\xf2:y|\xda.Q\x91\x92\x94Ɣ\xc6\xe9\xfd\x96\xccY:c\023\xf2\u07be\xfe\xeb~\033\xb3\037\xd4\xe7\f\xff\023\xa71Ic2\xdfR\xc2\xe8\x94Mg#\xe2\005Pd\xf8\xeak\024\xdf
+## 24                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        .x\xac\xc4\021I\xdc\xe9\x8bOj\x93B\xc4\xc4\026\xa9\xc8\026\x9e*\xd12Ǖ\x94dZ\xec\x80\026\xb9\xeds\xa7\t\xa9\003\xcei\xda\xcb\xd04\xd6\xe0}0o\035z\x96Wey+\xf1\xc0\xe8k\xac/\xe3\xc9PL\x8e\xab\x9e\xff״\016fࣗ\xdd1f`\xad\xbe\xc4\xe8\xac\001ί\xd4O֤@\xa1\xe1\xe2\t\x8c\xf5\034\xa8-\xbe\036\f:%\xe72\x959\xb7hޒ\xe5\xa3.\x95\x9c\xa7jk\xc0\xe1:\x8f\xd0
+## 25                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       8B%?
+## 26                                                                                                                                                                                                                                                                                                                                                                                                                                       \xea\021aX\xdf\006l\xadz^\xf5h8\xa4\x82쯼\xc0+Q\xfc\004\xc2\001\xac\022=$\v\x9e3\xe0 \x9b\x921v\x918\xe9\037!\xbdR\x8bȤd\026L\xc51\x9ck籽\xd1\xcbQ\x90\x83s\xe1`0\x81\xe4\xc69\xe2βC\xfa\xdel \xf1?\x88\x97s\xe2\x91a\xe2\x9dp\xb6\003\xdf4s\xce7>9O\xfa\xc3{\035\xba\b\xfe\x98\033\xa7\xe8\x9b\xf5\xaf\xf4\034w\xe1\036\030\xdf\xd7y^T\xdb\026\022\xd6\xf9\aN\xeb>\025\xd4c\xdedr\x83ɺ\005\xbf\xc7\xfa]\xf3wc8\x83\x97\xe9\xd6\xf5\xf2vQ^\x97\xf9_g5%?\xaeZ\xff\006
+## 27                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         \x89&\x90ki\xa1\xd7e\035セ#\xbbkh)\xfd\xef]\xe9)\xedix\xf3\x98\xf7=\xa6\xda\177\xe8)\xba\xa1u\x8aL
+## 28                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      \x8fI
+## 29                                                                                                                                                                                                                                                                                                                                                                                                                            \021\032I\xbd2\xd7\032\xde^\xcfq\001\x91\xf3\xc2\xf4b\x835\030\x82}\xb3y\xa8z\xb7\xeb\x85\027ΓŋG\035\x85\x85\n\xf3\xd2\xd5\xf0u\xe2\xed\xb1\xcc\xf2,.\x8b\xae\x8c\xb7\x9cwqqjy\xfc\xbc\xcd\xcf9o\xdbÑ\xb7\xdf\020\005\xb4\t1\xae\x86\xd1\xfbyǘ\x93#j\xe1\022\x9a\xd1\004s \xab\x85\017\xd2^\031\n\x83\x92ؑ\\4\032Ϟ\xd24gr\tx\xfd\xae'h\xd6>\xbf\xd7/8\xb8{\xb9V[\xac\xfaG\xd1JZr4\xf8D\x92fn\024\026gR!\xfc\x961I\xc6\a\x8e\xff\x9c\x91\xad5\034\xb0\xa6b\177 \xab\xbe{B\xf3\003
+## 30                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               3{\x8a\0066U
+## 31                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 \xa3\xa3\xde\xc7\xd1\xc0\xf9\xf4\xf5\xb1\003\xc5bcog\x8ah\xe0\x81\f\x87v\xbdj~p\xb6R\x96x\xf2\x89UQ\033\x98D\xd2^kv\023\006\xcb\025%\x8ce2P\016VJ\x99G\x9d\xac\xbb\xda\021\xf5\xb6\xae?u~5\xa0}3U\xd7\033\xc8]\xbf\001uz\xa4\x92\xfc\xbfM\xc3\xe0\035\036\xc9-\001\xa3\xfc\021\xa1\xdd\xc2B\xe1\022\xe6\xefL\x89\x8bl\xf3\x88b\xc0\v\x86gk[\x95{A\xb7\x8d~\xfb\xaf\xfd\005
+## 32                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  \xce\xddo
+## 33                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          \037ȽPgd61\xf5\x919\xb0\xccˋ\xc1x\xa2\x9b\x83\x99mL\006\027H\x9f\022k2\xb1'd\x96\xca\b\xfb[\xa8#b#\x8c\xb11\x98\x8du4\030\x9b\030
+## 34                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     f`\\\003c\xb2\x99\032csb\x99\x9b\xcb\xec\xb8\034/\xa0L(~~P\xad\xd6\xd3\xd2\xe3\xaeӷZ>\xa3'.\x91\xfe\032\t\xb0P\vG\x9e.
+## 35                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              #\xf6B\x95&sK
+## 36                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             \a\xdd\021\xf6
+## 37                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      \x8b@͚1\002g#\xccG\xee\tNP\025Z\x9f}\xf7)\xa1̌\0332\xa7K\x8ai\x8d\021\016\xd5\024\x96AS\xd9 \0162\x83\021\xcd?QA\xe24\023\xbbU\x89\xac\xeay\xd2Q\xcbٰ\xb8\xc1J\032\xca\xf4t\xd9MO56g\xe9\xaa\xc6\xed\xe5諐u3]\031аt1\xaa
+## 38                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            \x8f&\x8b)\xbdv\xa6\006\xd6d/\x9e\xc9b\x8a\xa5C\xae\002\xa3\x9b
+## 39                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          \xcaL:\xb8Q\x99\xf0\xe5h%.\x89r}\x8c\xba\xe9#'o\xb2\x86\xf4\x8d\xe7p\x854\xdexh\xff\x91\xf8[\xb1S\036\x90\033Bp\031M&\005+)\004\x9f<\x85\x9f\021k
+## 40                                                                                                                                                                                                                                                                                                                                       \xe5_\xae(蟻\xf8N\x85G\x93\xb6J\xaf\xbd\034+\xa9U\x86\xb9\036\xa6\xdd\xf4p\x80S\a/:@\xfdr\x94T\xad}s\035uL\xdeuF\035TT'~9\032\xaa\xd6\xf6\xb9\x86:\xa6\xed:\xa3\016\032\xaa\023\xbf\x9c4]\xec]2\xed\x8cZ\xe4\xe9*aS\x80)\xbf\xf7\xa2\x83r\\#\xb6\xea\xa2Z\xe14\xca\xff]\xd4\177\xbd\x8b\xaa\xe3.y\x88\031\x9fNT1\xb9q\x9b\xa8M*wE\x87\x9878\xd0\001p.y$\033X\x80H2\x9cn\017\x9f\xe4\xfc\xa0\xd0%I\xc8\xe8\026Z|'ǡ\x8f\x82\x84\xf2\xfd\033h\x96+\x80\n\xcc\026\xf6)\xb8\027\xfa\033\032B#i\035\x83\017\x8b(G\xbd\xf9Z学\xaaȆ~\xa1F\0209\xb4y\xfe\xf6\024V$!مz\x851H!n
+## 41                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        \xff\xd6;\x87\xc7x\xa2\002\xf6\xe5H\025qE\xec\x88\xe2\x87ކ0\x85\xda
+## 42                                                                                                                                                                                                                                                                                                                      G\017\xf0\x8c2%\025\x92\017\x955\xbc\x81\x82\xc0\x95\004\xb2\x8e\a&\x80?\006\024\xaaz\x98\xd5(\x90k\x950\x80\x8b+\xb2\xcc\020\xf9\022\xc8\006OW\b»\x8c\xd9\xf0\xd5O\x87D\x8bG\x90\xd5]\xc4OQi\xb7\xa7'(\xae\034\xde\xc3\005%96|w\xf6\xe9G\xf7\003Ґ\xe5%l{\x99c\xdc\024\xdd\xc1\xc1\x85\xbd\xfc\xa3\xd5T7\xce9\xb1Y\x9cu\xb5\xe7\xf8\x80\xef\024\xccТVz\xceAi2umu\xe3'\xd1M9\x8b~\x81\v\f\xe0\x8e\xc9w\xb5\xcev^n\033\xb3\x91]d\034\001\x9e\x97\xfa\xc6R\xd8}#m8}\xbf\xb2tJ]h\031\xfb\xd2\xc6\xdd\xe1qj)He\xc8\017\x97\xf6J\x97u\x9ae\x8d\xc3\xfb\xc1\xfex.\xa7\xa0\xd0\036\037\xdbjCo
+## 43                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        %\xeaH\\\xee\x83ۓ\xbf[-\xaf8\xa7؁\x90g\xbd\x87\xdaA<\xf5>n\xe0\x95phα\0054\xa2j\002Ճ
+## 44                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      U\x92A\x94U\xba\xfbY\xb4v\025Z\xa8\005\x95g\xa8\x88r\031\xfb\x9do>'8R\vErf3B\xed\xd0\037[\xbc\xf9\033
+## 45                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         \a
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(readxl)}
+\NormalTok{file }\OtherTok{\textless{}{-}} \FunctionTok{read\_excel}\NormalTok{(}\StringTok{"Vowels\_to\_plot.xlsx"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+lets you read in a file called
+\texttt{\textquotesingle{}Vowels\_to\_plot.xlsx\textquotesingle{}}
+(assuming that the file actually exists in your working directory). The
+file is then available to work with under the name \texttt{file}.
+
+The file would look like this:
+
+\begin{verbatim}
+## # A tibble: 18 x 4
+##    Speaker   Vowel    F1    F2
+##    <chr>     <chr> <dbl> <dbl>
+##  1 Example   i       240  2400
+##  2 Example   e       390  2300
+##  3 Example   ɛ       610  1900
+##  4 Example   æ       631  1355
+##  5 Example   ɑ       750   940
+##  6 Example   ɒ       700   760
+##  7 Example   ɔ       500   700
+##  8 Example   ʊ       419  1063
+##  9 Example   u       250   595
+## 10 Example 2 i       300  2500
+## 11 Example 2 e       490  2400
+## 12 Example 2 ɛ       710  2000
+## 13 Example 2 æ       721  1445
+## 14 Example 2 ɑ       850  1030
+## 15 Example 2 ɒ       800   855
+## 16 Example 2 ɔ       600   799
+## 17 Example 2 ʊ       520  1170
+## 18 Example 2 u       325   699
+\end{verbatim}
+
+To view the file in R, type \texttt{View()}, inserting the name of the
+file in the brackets, e.g:
+
+\texttt{View(file)}
+
+\emph{Note the absence of quotation marks}
+
+\n
+
+\hypertarget{aside}{%
+\paragraph{Aside}\label{aside}}
+
+There could be several reasons why a file might not load. One reason is
+that the file name might contain a typo. Another reason could be that
+the file extension is not correct. If it is still not loading, try
+typing out the entire path of the file (it could be that the file isn't
+in your working directory), making sure to use forward slashes
+(\texttt{/}) and not back slashes (\texttt{\textbackslash{}}).
+
+E.g. \texttt{read.csv("c:/Users/SteveIrwin/Documents/animaldata.csv")}
+
+\hypertarget{additional-parameters-for-read.csv}{%
+\subsubsection{\texorpdfstring{Additional parameters for
+\texttt{read.csv()}}{Additional parameters for read.csv()}}\label{additional-parameters-for-read.csv}}
+
+\hypertarget{reading-in-non-comma-separated-files}{%
+\subparagraph{Reading in non comma separated
+files}\label{reading-in-non-comma-separated-files}}
+
+However, it is not just possible to open \texttt{.csv} files. If your
+data are stored in \texttt{.txt} files, these can also be accessed using
+the \texttt{read.csv()} function. To do this, you simply have to adjust
+the \texttt{sep} parameter when opening the file.
+
+If you are opening a file and your columns are separated by tabs, for
+example, you just need to add \texttt{sep\ =\ "\textbackslash{}t"} when
+opening the file. For data separated by spaces/whitespace, simply add
+\texttt{sep\ =\ ""} instead. The default \texttt{sep} setting is
+\texttt{,}, so you don't need to type anything for it if reading in a
+comma separated file, as was shown above.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{read.csv}\NormalTok{(}\StringTok{"Vowels\_to\_plot.txt"}\NormalTok{, }\AttributeTok{sep =} \StringTok{"}\SpecialCharTok{\textbackslash{}t}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      Speaker Vowel  F1   F2
+## 1    Example     i 240 2400
+## 2    Example     e 390 2300
+## 3    Example     ɛ 610 1900
+## 4    Example     æ 631 1355
+## 5    Example    ɑ  750  940
+## 6    Example     ɒ 700  760
+## 7    Example     ɔ 500  700
+## 8    Example     ʊ 419 1063
+## 9    Example     u 250  595
+## 10 Example 2     i 300 2500
+## 11 Example 2     e 490 2400
+## 12 Example 2     ɛ 710 2000
+## 13 Example 2     æ 721 1445
+## 14 Example 2    ɑ  850 1030
+## 15 Example 2     ɒ 800  855
+## 16 Example 2     ɔ 600  799
+## 17 Example 2     ʊ 520 1170
+## 18 Example 2     u 325  699
+\end{verbatim}
+
+\begin{verbatim}
+## 'data.frame':    18 obs. of  4 variables:
+##  $ Speaker: chr  "Example" "Example" "Example" "Example" ...
+##  $ Vowel  : chr  "i" "e" "ɛ" "æ" ...
+##  $ F1     : int  240 390 610 631 750 700 500 419 250 300 ...
+##  $ F2     : int  2400 2300 1900 1355 940 760 700 1063 595 2500 ...
+\end{verbatim}
+
+The structure of the data can be obtained by typing \texttt{str(file)},
+where \texttt{file} is replaced by whatever you called your data. By
+typing this you can see whether R has read your data in as characters
+(\texttt{chr}), numbers (e.g.~\texttt{int} or \texttt{num}) or factors
+(\texttt{Factor}), for example.
+
+\hypertarget{setting-strings-as-factors}{%
+\subparagraph{Setting strings as
+factors}\label{setting-strings-as-factors}}
+
+With \texttt{stringsAsFactors}, you can tell R whether it should convert
+strings (characters/letters or combinations of letters and numbers,
+e.g.~`cat' `File001') to factors. \texttt{stringsAsFactors} used to be
+set to \texttt{TRUE} by default, but it now appears to be set to
+\texttt{FALSE}.
+
+If you wish to read in strings as factors, simply add
+\texttt{stringsAsFactors\ =\ TRUE} after the name of the file that you
+are reading in, like so:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{file3 }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{\textquotesingle{}Vowels\_to\_plot.txt\textquotesingle{}}\NormalTok{, }\AttributeTok{sep =} \StringTok{"}\SpecialCharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\AttributeTok{stringsAsFactors =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str}\NormalTok{(file3)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    18 obs. of  4 variables:
+##  $ Speaker: Factor w/ 2 levels "Example","Example 2": 1 1 1 1 1 1 1 1 1 2 ...
+##  $ Vowel  : Factor w/ 9 levels "æ","ɑ ","ɒ","e",..: 6 4 5 1 2 3 7 9 8 6 ...
+##  $ F1     : int  240 390 610 631 750 700 500 419 250 300 ...
+##  $ F2     : int  2400 2300 1900 1355 940 760 700 1063 595 2500 ...
+\end{verbatim}
+
+As you can see, where \texttt{Animal} and \texttt{Name} were read in as
+strings earlier, by typing \texttt{stringsAsFactors\ =\ TRUE}, they are
+now read in as factors.
+
+\hypertarget{setting-na-values}{%
+\subparagraph{Setting NA values}\label{setting-na-values}}
+
+An additional parameter that might come in handy is \texttt{na.strings}.
+By default, \texttt{read.csv()} takes ``NA'' to stand for NA values in
+the dataset. However, it is possible that you may have coded your data
+differently, so that maybe `0', `na' or `N/A', for example are used to
+represent NA values. You can specify this using the \texttt{na.strings}
+parameter, typing, for example
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{file4 }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{\textquotesingle{}Vowels\_to\_plot.txt\textquotesingle{}}\NormalTok{, }\AttributeTok{sep =} \StringTok{"}\SpecialCharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\AttributeTok{na.strings =} \StringTok{"i"}\NormalTok{)}
+\FunctionTok{str}\NormalTok{(file4)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    18 obs. of  4 variables:
+##  $ Speaker: chr  "Example" "Example" "Example" "Example" ...
+##  $ Vowel  : chr  NA "e" "ɛ" "æ" ...
+##  $ F1     : int  240 390 610 631 750 700 500 419 250 300 ...
+##  $ F2     : int  2400 2300 1900 1355 940 760 700 1063 595 2500 ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{file5 }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{\textquotesingle{}Vowels\_to\_plot.txt\textquotesingle{}}\NormalTok{, }\AttributeTok{sep =} \StringTok{"}\SpecialCharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\AttributeTok{na.strings =} \FunctionTok{c}\NormalTok{(}\StringTok{"i"}\NormalTok{, }\StringTok{"e"}\NormalTok{, }\StringTok{"u"}\NormalTok{, }\StringTok{"750"}\NormalTok{))}
+\FunctionTok{str}\NormalTok{(file5)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    18 obs. of  4 variables:
+##  $ Speaker: chr  "Example" "Example" "Example" "Example" ...
+##  $ Vowel  : chr  NA NA "ɛ" "æ" ...
+##  $ F1     : int  240 390 610 631 NA 700 500 419 250 300 ...
+##  $ F2     : int  2400 2300 1900 1355 940 760 700 1063 595 2500 ...
+\end{verbatim}
+
+\hypertarget{dont-use-the-first-line-as-headings}{%
+\subparagraph{Don't use the first line as
+headings}\label{dont-use-the-first-line-as-headings}}
+
+By default, \texttt{read.csv()} will read the first line of your file in
+as headings. If your data does not include headings, you can prevent
+this by typing \texttt{header\ =\ FALSE}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{file6 }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{\textquotesingle{}Vowels\_to\_plot.txt\textquotesingle{}}\NormalTok{, }\AttributeTok{sep =} \StringTok{"}\SpecialCharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\AttributeTok{header =} \ConstantTok{FALSE}\NormalTok{)}
+\NormalTok{file6}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##           V1    V2  V3   V4
+## 1    Speaker Vowel  F1   F2
+## 2    Example     i 240 2400
+## 3    Example     e 390 2300
+## 4    Example     ɛ 610 1900
+## 5    Example     æ 631 1355
+## 6    Example    ɑ  750  940
+## 7    Example     ɒ 700  760
+## 8    Example     ɔ 500  700
+## 9    Example     ʊ 419 1063
+## 10   Example     u 250  595
+## 11 Example 2     i 300 2500
+## 12 Example 2     e 490 2400
+## 13 Example 2     ɛ 710 2000
+## 14 Example 2     æ 721 1445
+## 15 Example 2    ɑ  850 1030
+## 16 Example 2     ɒ 800  855
+## 17 Example 2     ɔ 600  799
+## 18 Example 2     ʊ 520 1170
+## 19 Example 2     u 325  699
+\end{verbatim}
+
+\emph{In the example above, no column names were provided. The first row
+of the file contained only data. Having set \texttt{header} to
+\texttt{FALSE}, R has automatically supplied \texttt{V1}, \texttt{V2}
+etc. as headings.}
+
+\hypertarget{trim-whitespace}{%
+\subparagraph{Trim whitespace}\label{trim-whitespace}}
+
+A very useful parameter that can be used is \texttt{strip.white}. By
+setting \texttt{strip.white} to \texttt{TRUE} you can remove leading and
+trailing spaces. If you do this, then
+\texttt{\textquotesingle{}Tiger\textquotesingle{}},
+\texttt{\textquotesingle{}\ Tiger\textquotesingle{}} and
+\texttt{\textquotesingle{}Tiger\ \textquotesingle{}} will all be read in
+as \texttt{\textquotesingle{}Tiger\textquotesingle{}}, rather than three
+separate names -- something you probably don't want.
+
+E.g.
+\texttt{spaceless\ \textless{}-\ read.csv("animaldata.csv",\ strip.white\ =\ TRUE)}
+
+\n
+\n
+
+\hypertarget{the-codeless-way}{%
+\subsubsection{The codeless way}\label{the-codeless-way}}
+
+However, there is another simple method for reading in csv/txt files, in
+a very user friendly manner. In RStudio, you can click \texttt{file}
+-\textgreater{} \texttt{Import\ Dataset} -\textgreater{}
+\texttt{From\ Text\ (base)}. This lets you search through your files to
+select the relevant one. You can choose then choose a name to give to
+the file and you are presented with multiple parameters which you can
+adjust as you need to.
+
+\n
+\n
+\n
+
+\hypertarget{read_excel}{%
+\subsection{\texorpdfstring{\texttt{read\_excel()}}{read\_excel()}}\label{read_excel}}
+
+\hypertarget{reading-in-excel-files}{%
+\subsubsection{Reading in Excel files}\label{reading-in-excel-files}}
+
+One package you can use to import Excel files is \texttt{readxl}. One
+small caveat: *It can only read one sheet a time. If you need to work on
+multiple sheets, they will each need to be loaded as objects.
+
+To read in an Excel file, you first need to load the \texttt{readxl}
+package, by typing the following into the console:
+
+\texttt{library(readxl)} unless you have already loaded the
+\texttt{tidyverse} package.
+
+*If you don't have \texttt{tidyverse} or \texttt{readxl} packages
+available, these can be obtained by typing
+\texttt{install.packages(\textquotesingle{}tidyverse\textquotesingle{})}
+or \texttt{install.packages(\textquotesingle{}readxl\textquotesingle{})}
+respectively.
+
+Following this, you can read in the file by typing
+\texttt{read\_excel()}, with the name of the file surrounded by
+quotation mark placed inside the brackets, as can be seen in the example
+below:
+
+\texttt{dataset\ \textless{}-\ read\_excel("Im\_a\_little\_dataset\_short\_and\_stout.xlsx")}
+
+\hypertarget{additional-parameters-for-read_excel}{%
+\subsubsection{\texorpdfstring{Additional parameters for
+\texttt{read\_excel()}}{Additional parameters for read\_excel()}}\label{additional-parameters-for-read_excel}}
+
+\hypertarget{trim-whitespace-1}{%
+\subparagraph{Trim whitespace}\label{trim-whitespace-1}}
+
+Another potentially useful parameter that is set to \texttt{TRUE} by
+default is \texttt{trim\_ws}. This removes leading and trailing spaces.
+What this means in practice is that
+\texttt{\textquotesingle{}John\textquotesingle{}},
+\texttt{\textquotesingle{}\ John\textquotesingle{}} and
+\texttt{\textquotesingle{}John\ \textquotesingle{}} would all be read in
+as \texttt{\textquotesingle{}John\textquotesingle{}}, which is
+incredibly useful, especially if you can't see that you added a space at
+the end of a variable. When it comes to conducting analyses, if it
+weren't for the trimming of whitespace, the three Johns would count as
+separate variables, rather than one, which is probably not what you
+would want. If for some reason, you need to keep this whitespace, add
+\texttt{trim\_ws\ =\ FALSE}, when reading in the file
+(e.g.~\texttt{dataset\ \textless{}-\ read\_excel("Im\_a\_little\_dataset\_short\_and\_stout.xlsx,\ trim\_ws\ =\ FALSE")})
+
+\hypertarget{setting-na-values-1}{%
+\subparagraph{Setting NA values}\label{setting-na-values-1}}
+
+As with \texttt{read.csv()}, you can set NA to be whatever you choose,
+in this case using the \texttt{na} parameter. The default value for NA
+in \texttt{read\_excel()} is a blank cell. You could add `na', `NA',
+`0', or any variable or your choosing by typing something like
+
+\texttt{dataset\_sheet2\ \textless{}-\ read\_excel("Im\_a\_little\_dataset\_short\_and\_stout.xlsx",\ sheet\ =\ 2,\ na\ =\ c("",\ "na",\ "NA",\ "woof\ woof"))}
+
+\hypertarget{the-codeless-way-1}{%
+\subsubsection{The codeless way}\label{the-codeless-way-1}}
+
+As for \texttt{read.csv}, there is a very simple and codeless way of
+reading in Excel files. In RStudio, you can click \texttt{file}
+-\textgreater{} \texttt{Import\ Dataset} -\textgreater{}
+\texttt{From\ Excel..}. You can then search for the file you want. You
+are also presented with multiple parameters that you can adjust as you
+wish.
+
+\end{document}
